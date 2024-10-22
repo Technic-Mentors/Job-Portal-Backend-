@@ -46,7 +46,7 @@ router.post("/signIn", errorHandling(async (req, res) => {
     const checkPassword = await bcrypt.compare(password, checkUser.password)
     if (!checkPassword) return res.status(400).json({ message: "Incorrect Password" })
 
-    
+    res.json(checkUser)
 }))
 
 router.get("/getUser", errorHandling(async (req, res) => {

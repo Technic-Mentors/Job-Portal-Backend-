@@ -17,6 +17,8 @@ import jobCatControllers from "./Controllers/JobCatController.js";
 import jobIndControllers from "./Controllers/JobIndustryController.js";
 import InterviewController from './Controllers/InterviewController.js'
 import InterviewCatController from './Controllers/InterviewCatController.js'
+import ServicesController from './Controllers/ServicesController.js'
+import ServicesCatController from './Controllers/ServicesCatController.js'
 
 import cors from "cors"
 mongoDbConnection()
@@ -41,6 +43,8 @@ app.use("/api/jobCat", jobCatControllers)
 app.use("/api/jobInd", jobIndControllers)
 app.use("/api/interview", InterviewController)
 app.use("/api/interviewCat", InterviewCatController)
+app.use("/api/service", ServicesController)
+app.use("/api/serviceCat", ServicesCatController)
 
 app.listen(8000, () => {
     console.log("App listing at http://localhost:8000");

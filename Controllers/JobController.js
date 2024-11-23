@@ -11,7 +11,7 @@ router.post("/addJob", upload.fields([
 ]), errorHandling(async (req, res) => {
     const { title, country, city, email, description, requirements, industryId, companyName, jobType, categoryId, jobLocaType, salary, aboutCompany, userId } = req.body
 
-    if (!title || !country || !city || !email || !description || !requirements || !industryId || !companyName || !jobType || !categoryId) return res.status(400).json({ message: "Fields with * are required" })
+    if (!title || !country || !city || !email || !description || !requirements || !industryId  || !jobType || !categoryId) return res.status(400).json({ message: "Fields with * are required" })
 
     const checkJob = await JobPost.findOne({ title })
     if (checkJob) return res.status(400).json({ message: "Title already exists" })

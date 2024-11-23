@@ -61,12 +61,12 @@ router.put("/editposts/:id", errorHandling(async (req, res) => {
   }
   if (slug) {
     newPosts.slug = slug;
-  }
-
+  } 
+ 
   let posts = await Blogs.findById(req.params.id);
   if (!posts) {
     res.status(404).send({ message: "Posts not find" });
-  }
+  } 
   posts = await Blogs.findByIdAndUpdate(
     req.params.id,
     { $set: newPosts },

@@ -47,7 +47,7 @@ router.post("/signIn", errorHandling(async (req, res) => {
     const { email, password } = req.body
     if (!email || !password) return res.status(400).json({ message: "Email and password are required" })
     const checkUser = await User.findOne({ email })
-    if (!checkUser) return res.status(400).json({ message: "Email not match" })
+    if (!checkUser) return res.status(400).json({ message: "Email did not match" })
 
     const checkPassword = await bcrypt.compare(password, checkUser.password)
     if (!checkPassword) return res.status(400).json({ message: "Incorrect Password" })
@@ -64,8 +64,14 @@ router.get("/getUserById/:id", errorHandling(async (req, res) => {
     const getUserById = await User.findById(req.params.id)
     if (!getUserById) return res.status(400).json({ message: "User not found" })
     res.json(getUserById)
-}))
+}))  
 
+router.get("/titleUser/:title", errorHandling(async (req, res) => {
+    const getUserByTitle = await User.findOne({ name: req.params.title })
+    if (!getUserByTitle) return res.status(400).json({ message: "User not found" })
+    res.json(getUserByTitle)
+}))
+ 
 router.delete("/delUser/:id", errorHandling(async (req, res) => {
     const delUserById = await User.findByIdAndDelete(req.params.id)
     if (!delUserById) return res.status(400).json({ message: "User not found" })

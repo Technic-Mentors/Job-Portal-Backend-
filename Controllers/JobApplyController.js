@@ -19,7 +19,7 @@ router.post("/applyForJob", uploadFile.single("resume"), errorHandling(async (re
         const resumeUplaod = await cloudinary.uploader.upload(req.file.path)
         resume_url = resumeUplaod.secure_url
     }
-
+ 
     const applyForJob = await JobApply.create({
         name, email, number, resume: resume_url, jobId, currentSalary, expectedSalary, relocation
     })

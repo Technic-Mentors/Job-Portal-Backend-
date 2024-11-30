@@ -11,7 +11,7 @@ router.post("/uploadResume", upload.single("image"), errorHandling(async (req, r
 
     // let skillsArray = []
     let employmentDetailsArray = []
-    let educationDetailsArray = []
+    let educationDetailsArray = [] 
 
     try {
         // if (skills) skillsArray = JSON.parse(skills)
@@ -71,6 +71,6 @@ router.get("/resumeCount", errorHandling(async (req, res) => {
     const resumeCount = await Resume.countDocuments()
     res.json(resumeCount)
 }))
-
+ 
 
 export default router;

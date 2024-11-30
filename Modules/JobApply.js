@@ -33,4 +33,4 @@ const jobApplySchema = new Schema({
     }
 }, { timestamps: true })
 
-export default mongoose.model("JobApply", jobApplySchema)
+export default mongoose.model("JobApply", jobApplySchema) 

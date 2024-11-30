@@ -10,12 +10,12 @@ router.post("/addJobBySeaker", errorHandling(async (req, res) => {
 
     const checkJob = await JobSeaker.findOne({ title })
     if (checkJob) return res.status(400).json({ message: "Title already exists" })
-
+ 
     const newJobSeaker = await JobSeaker.create({
         title, country, city, email, description, experience, industry, name, contact, userId, qualification, repositry, requirements
     })
     res.json(newJobSeaker)
-}))
+})) 
 
 router.get("/getJobsBySeaker", errorHandling(async (req, res) => {
     const allJobs = await JobSeaker.find().populate("userId", "email image")
@@ -39,7 +39,7 @@ router.delete("/delJobBySeaker/:id", errorHandling(async (req, res) => {
     if (!delJobById) return res.status(400).json({ message: "Job not found" })
     res.json("Job successfully deleted")
 }))
-
+ 
 router.put("/updateJobBySeaker/:id", errorHandling(async (req, res) => {
     const { title, country, city, email, description, experience, industry, name, contact, qualification, repositry, requirements } = req.body
     const updateJob = {}
@@ -54,6 +54,7 @@ router.put("/updateJobBySeaker/:id", errorHandling(async (req, res) => {
     if (contact) updateJob.contact = contact
     if (qualification) updateJob.qualification = qualification
     if (repositry) updateJob.repositry = repositry
+    
 
     const updatedJob = await JobSeaker.findByIdAndUpdate(req.params.id, { $set: updateJob }, { new: true })
     if (!updatedJob) return res.status(400).json({ message: "Job not found" })

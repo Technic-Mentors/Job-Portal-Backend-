@@ -17,7 +17,7 @@ const educationSchema = new Schema({
     fieldOfStudy: String,
     description: String,
 });
-
+ 
 const resumeSchema = new Schema({
     name: {
         type: String,

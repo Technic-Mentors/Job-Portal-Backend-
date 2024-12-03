@@ -35,7 +35,7 @@ router.post("/addJob", upload.fields([
 }))
 
 router.get("/getJobs", errorHandling(async (req, res) => {
-    const allJobs = await JobPost.find().populate("userId", "email").populate("categoryId", "category").populate("industryId", "industry")
+    const allJobs = await JobPost.find().populate("userId", "email name role").populate("categoryId", "category").populate("industryId", "industry")
     res.json(allJobs)
 }))
 

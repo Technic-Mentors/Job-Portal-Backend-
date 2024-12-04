@@ -1,6 +1,6 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const { Schema } = mongoose
+const { Schema } = mongoose;
 
 const jobSchema = new Schema({
     title: {
@@ -53,7 +53,10 @@ const jobSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
+    },
+    status: {
+        type: String,
     }
-}, { timestamps: true })
+}, { timestamps: true });
 
-export default mongoose.model("JobPost", jobSchema)
+export default mongoose.model("JobPost", jobSchema);

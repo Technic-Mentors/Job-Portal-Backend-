@@ -9,30 +9,55 @@ router.post("/addJob", upload.fields([
     { name: "jobImage", maxCount: 1 },
     { name: "countryImage", maxCount: 1 },
 ]), errorHandling(async (req, res) => {
-    const { title, country, city, email, description, requirements, industryId, companyName, jobType, categoryId, jobLocaType, salary, aboutCompany, userId } = req.body
+    const { 
+        title, country, city, email, description, requirements, 
+        industryId, companyName, jobType, categoryId, jobLocaType, 
+        salary, aboutCompany, userId, status 
+    } = req.body;
 
-    if (!title || !country || !city || !email || !description || !requirements || !industryId  || !jobType || !categoryId) return res.status(400).json({ message: "Fields with * are required" })
+    if (!title || !country || !city || !email || !description || 
+        !requirements || !industryId || !jobType || !categoryId) {
+        return res.status(400).json({ message: "Fields with * are required" });
+    }
 
-    const checkJob = await JobPost.findOne({ title })
-    if (checkJob) return res.status(400).json({ message: "Title already exists" })
+    const checkJob = await JobPost.findOne({ title });
+    if (checkJob) return res.status(400).json({ message: "Title already exists" });
 
     let jImage;
     let couImage;
 
     if (req.files.jobImage) {
         const uploadJobImage = await cloudinaryV2.uploader.upload(req.files.jobImage[0].path);
-        jImage = uploadJobImage.secure_url
+        jImage = uploadJobImage.secure_url;
     }
     if (req.files.countryImage) {
         const uploadCountryImage = await cloudinaryV2.uploader.upload(req.files.countryImage[0].path);
-        couImage = uploadCountryImage.secure_url
+        couImage = uploadCountryImage.secure_url;
     }
 
     const newjobPost = await JobPost.create({
-        title, country, city, email, description, requirements, aboutCompany, industryId, jobImage: jImage, countryImage: couImage, companyName, jobType, categoryId, jobLocaType, salary, userId
-    })
-    res.json(newjobPost)
-}))
+        title,
+        country,
+        city,
+        email,
+        description,
+        requirements,
+        aboutCompany,
+        industryId,
+        jobImage: jImage,
+        countryImage: couImage,
+        companyName,
+        jobType,
+        categoryId,
+        jobLocaType,
+        salary,
+        userId,
+        status, 
+    });
+
+    res.json(newjobPost);
+}));
+
 
 router.get("/getJobs", errorHandling(async (req, res) => {
     const allJobs = await JobPost.find().populate("userId", "email name role").populate("categoryId", "category").populate("industryId", "industry")

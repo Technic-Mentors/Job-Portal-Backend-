@@ -76,6 +76,27 @@ router.get("/getJobByTitle/:title", errorHandling(async (req, res) => {
     res.json(getJobByTitle)
 }))
 
+router.put("/acceptStatus/:id", async (req, res) => {
+    const AcceptStatus = await JobPost.findByIdAndUpdate(req.params.id, { status: "Y" }, { new: true })
+    if (!AcceptStatus) {
+        return res.status(404).json({ error: "Job not found" });
+    }
+    res.json({ message: "Job status updated to 'y' (Accepted)", AcceptStatus });
+})
+
+router.put("/rejectStatus/:id", async (req, res) => {
+    try {
+        const RejectStatus = await JobPost.findByIdAndUpdate(req.params.id, { status: "N" }, { new: true })
+        if (!RejectStatus) {
+            return res.status(404).json({ error: "Job not found" });
+        }
+        res.json({ message: "Job status updated to 'n' (Accepted)", RejectStatus });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
 router.delete("/delJob/:id", errorHandling(async (req, res) => {
     const delJobById = await JobPost.findByIdAndDelete(req.params.id)
     if (!delJobById) return res.status(400).json({ message: "Job not found" })

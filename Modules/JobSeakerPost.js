@@ -21,6 +21,9 @@ const jobSeakerSchema = new Schema({
     contact: {
         type: String
     },
+    resume: {
+        type: String
+    },
     description: {
         type: String
     },
@@ -39,7 +42,7 @@ const jobSeakerSchema = new Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }, 
+    },
     status: {
         type: String,
     }

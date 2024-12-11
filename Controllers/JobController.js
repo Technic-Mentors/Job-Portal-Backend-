@@ -9,13 +9,13 @@ router.post("/addJob", upload.fields([
     { name: "jobImage", maxCount: 1 },
     { name: "countryImage", maxCount: 1 },
 ]), errorHandling(async (req, res) => {
-    const { 
-        title, country, city, email, description, requirements, 
-        industryId, companyName, jobType, categoryId, jobLocaType, 
-        salary, aboutCompany, userId, status 
+    const {
+        title, country, city, email, description, requirements,
+        industryId, companyName, jobType, categoryId, jobLocaType,
+        salary, aboutCompany, userId, status
     } = req.body;
 
-    if (!title || !country || !city || !email || !description || 
+    if (!title || !country || !city || !email || !description ||
         !requirements || !industryId || !jobType || !categoryId) {
         return res.status(400).json({ message: "Fields with * are required" });
     }
@@ -52,7 +52,7 @@ router.post("/addJob", upload.fields([
         jobLocaType,
         salary,
         userId,
-        status, 
+        status,
     });
 
     res.json(newjobPost);

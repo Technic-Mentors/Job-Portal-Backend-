@@ -1,22 +1,34 @@
 import express from "express";
 import JobSeaker from "../Modules/JobSeakerPost.js";
 import errorHandling from "../Middlewares/ErrorHandling.js";
+import uploadFile from "../Middlewares/FileFilter.js"
+import cloudinary from "../Cloudinary.js"
 const router = express.Router()
 
-router.post("/addJobBySeaker", errorHandling(async (req, res) => {
+router.post("/addJobBySeaker", uploadFile.single("resume"), errorHandling(async (req, res) => {
     const { title, country, city, email, description, experience, industry, name, contact, userId, qualification, repositry, requirements, status } = req.body
 
     if (!title || !country || !city || !email || !description || !experience || !industry || !qualification) return res.status(400).json({ message: "Fields with * are required" })
 
     const checkJob = await JobSeaker.findOne({ title })
     if (checkJob) return res.status(400).json({ message: "Title already exists" })
- 
+
+    if (req.file && !req.file.mimetype.startsWith("application/pdf")) {
+        return res.status(400).json({ message: "Only PDF files are allowed" });
+    }
+
+    let resume_url;
+    if (req.file) {
+        const resumeUplaod = await cloudinary.uploader.upload(req.file.path)
+        resume_url = resumeUplaod.secure_url
+    }
+
     const newJobSeaker = await JobSeaker.create({
-        title, country, city, email, description, experience, industry, name, contact, userId, qualification, repositry, requirements, status
+        title, country, city, email, description, experience, industry, name, contact, userId, qualification, repositry, requirements, status, resume: resume_url
     })
     res.json(newJobSeaker)
-})) 
- 
+}))
+
 router.get("/getJobsBySeaker", errorHandling(async (req, res) => {
     const allJobs = await JobSeaker.find().populate("userId", "email image")
     res.json(allJobs)
@@ -60,7 +72,7 @@ router.delete("/delJobBySeaker/:id", errorHandling(async (req, res) => {
     if (!delJobById) return res.status(400).json({ message: "Job not found" })
     res.json("Job successfully deleted")
 }))
- 
+
 router.put("/updateJobBySeaker/:id", errorHandling(async (req, res) => {
     const { title, country, city, email, description, experience, industry, name, contact, qualification, repositry, requirements } = req.body
     const updateJob = {}
@@ -75,7 +87,7 @@ router.put("/updateJobBySeaker/:id", errorHandling(async (req, res) => {
     if (contact) updateJob.contact = contact
     if (qualification) updateJob.qualification = qualification
     if (repositry) updateJob.repositry = repositry
-    
+
 
     const updatedJob = await JobSeaker.findByIdAndUpdate(req.params.id, { $set: updateJob }, { new: true })
     if (!updatedJob) return res.status(400).json({ message: "Job not found" })

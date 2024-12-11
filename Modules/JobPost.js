@@ -15,10 +15,16 @@ const jobSchema = new Schema({
     email: {
         type: String
     },
+    whatsApp: {
+        type: String
+    },
     description: {
         type: String
     },
     requirements: {
+        type: String
+    },
+    perks: {
         type: String
     },
     industryId: {

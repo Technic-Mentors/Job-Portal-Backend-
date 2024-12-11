@@ -34,6 +34,12 @@ const courseSchema = new Schema({
     image: {
         type: String
     },
+    contact: {
+        type: String
+    },
+    email: {
+        type: String
+    },
 
     moduleName1: {
         type: String

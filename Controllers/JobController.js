@@ -9,13 +9,13 @@ router.post("/addJob", upload.fields([
     { name: "jobImage", maxCount: 1 },
     { name: "countryImage", maxCount: 1 },
 ]), errorHandling(async (req, res) => {
-    const {
-        title, country, city, email, description, requirements,
-        industryId, companyName, jobType, categoryId, jobLocaType,
-        salary, aboutCompany, userId, status
+    const { 
+        title, country, city, email, whatsApp, description, requirements, perks, 
+        industryId, companyName, jobType, categoryId, jobLocaType, 
+        salary, aboutCompany, userId, status 
     } = req.body;
 
-    if (!title || !country || !city || !email || !description ||
+    if (!title || !country || !city || !description || 
         !requirements || !industryId || !jobType || !categoryId) {
         return res.status(400).json({ message: "Fields with * are required" });
     }
@@ -43,6 +43,8 @@ router.post("/addJob", upload.fields([
         description,
         requirements,
         aboutCompany,
+        perks,
+        whatsApp,
         industryId,
         jobImage: jImage,
         countryImage: couImage,
@@ -52,7 +54,7 @@ router.post("/addJob", upload.fields([
         jobLocaType,
         salary,
         userId,
-        status,
+        status, 
     });
 
     res.json(newjobPost);
@@ -102,12 +104,12 @@ router.delete("/delJob/:id", errorHandling(async (req, res) => {
     if (!delJobById) return res.status(400).json({ message: "Job not found" })
     res.json("Job successfully deleted")
 }))
-
+ 
 router.put("/updateJob/:id", upload.fields([
     { name: "jobImage", maxCount: 1 },
     { name: "countryImage", maxCount: 1 },
 ]), errorHandling(async (req, res) => {
-    const { title, country, city, email, description, requirements, industryId, companyName, jobType, categoryId, jobLocaType, salary, aboutCompany } = req.body
+    const { title, country, city, email, whatsApp, description, requirements, perks, industryId, companyName, jobType, categoryId, jobLocaType, salary, aboutCompany } = req.body
     const updateJob = {}
     if (title) updateJob.title = title
     if (country) updateJob.country = country
@@ -121,6 +123,8 @@ router.put("/updateJob/:id", upload.fields([
     if (jobType) updateJob.jobType = jobType
     if (categoryId) updateJob.categoryId = categoryId
     if (salary) updateJob.salary = salary
+    if (perks) updateJob.perks = perks
+    if (whatsApp) updateJob.whatsApp = whatsApp
     if (jobLocaType) updateJob.jobLocaType = jobLocaType
 
     if (req.files.jobImage) {

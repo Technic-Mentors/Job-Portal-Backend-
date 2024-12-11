@@ -17,7 +17,7 @@ router.use((err, req, res, next) => {
 // add course
 router.post("/addcourse", upload.single("image"), errorHandling(async (req, res) => {
 
-    const { title, duration, level, description, categoryId, learning, content, userId, moduleName1, moduleName2, instructorName, days, timeSlot } = req.body;
+    const { title, duration, level, description, categoryId, learning, content, userId, moduleName1, moduleName2, instructorName, days, email, contact, timeSlot } = req.body;
 
     const [checkCategory, CourseTitle] = await Promise.all([
         Category.findById(categoryId),
@@ -35,7 +35,7 @@ router.post("/addcourse", upload.single("image"), errorHandling(async (req, res)
     }
 
     const newCourse = await Course.create({
-        title, duration, level, description, image: img_url, categoryId, learning, content, userId, moduleName1, moduleName2, instructorName, days, timeSlot
+        title, duration, level, description, image: img_url, categoryId, learning, content, userId, moduleName1, moduleName2, instructorName, email, contact, days, timeSlot
     });
 
     res.json(newCourse);
@@ -86,7 +86,7 @@ router.get("/getcorse/:title", errorHandling(async (req, res) => {
 
 // {update}
 router.put("/updatecourse/:id", upload.single("image"), errorHandling(async (req, res) => {
-    const { title, duration, level, description, categoryId, learning, content, days, timeSlot, moduleName1, moduleName2, instructorName } = req.body
+    const { title, duration, level, description, categoryId, learning, content, days, email, contact, timeSlot, moduleName1, moduleName2, instructorName } = req.body
 
     const newCourse = ({})
     if (title) newCourse.title = title
@@ -101,6 +101,8 @@ router.put("/updatecourse/:id", upload.single("image"), errorHandling(async (req
     if (categoryId) newCourse.categoryId = categoryId
     if (learning) newCourse.learning = learning
     if (content) newCourse.content = content
+    if (email) newCourse.email = email
+    if (contact) newCourse.contact = contact
 
     if (req.file) {
         const uploadResult = await cloudinary.uploader.upload(req.file.path);
@@ -108,7 +110,7 @@ router.put("/updatecourse/:id", upload.single("image"), errorHandling(async (req
     }
 
     let courseId = await Course.findById(req.params.id)
-    if (!courseId) return res.status(400).json({ message: "course not exists" })
+    if (!courseId) return res.status(400).json({ message: "Course Doesn't Exist" })
 
     courseId = await Course.findByIdAndUpdate(req.params.id, { $set: newCourse }, { new: true })
     res.json(courseId)
@@ -118,7 +120,7 @@ router.put("/updatecourse/:id", upload.single("image"), errorHandling(async (req
 router.delete("/deletecourse/:id", errorHandling(async (req, res) => {
     const courseId = await Course.findByIdAndDelete(req.params.id)
     if (!courseId) {
-        res.status(400).json({ message: "course not exists" })
+        res.status(400).json({ message: "Course Doesn't Exist" })
     }
     res.json({ message: "course deleted successfully" })
 }))

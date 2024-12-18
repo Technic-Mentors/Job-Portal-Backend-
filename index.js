@@ -24,8 +24,7 @@ import cors from "cors"
 mongoDbConnection()
 const app = express()
 app.use(cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: "*",
 }));
 
 app.use(express.json())

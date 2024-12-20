@@ -23,7 +23,7 @@ adminUser()
 
 router.post("/addUser", upload.single("userImage"), errorHandling(async (req, res) => {
     const { name, email, password, confirmPassword, number, uploadCv, role } = req.body
-    if (!name || !email || !password || !confirmPassword || !number) return res.status(400).json({ message: "Fields with * are required" })
+    if (!name || !email || !password || !confirmPassword || !number || !role) return res.status(400).json({ message: "Fields with * are required" })
 
     const [checkEmail, checkNumber] = await Promise.all([
         User.findOne({ email }),
@@ -51,7 +51,6 @@ router.post("/signIn", errorHandling(async (req, res) => {
 
     const checkPassword = await bcrypt.compare(password, checkUser.password)
     if (!checkPassword) return res.status(400).json({ message: "Incorrect Password" })
-
     res.json(checkUser)
 }))
 
@@ -84,12 +83,12 @@ router.get("/userCount", errorHandling(async (req, res) => {
 }))
 
 router.put("/updateUser/:id", upload.single("userImage"), errorHandling(async (req, res) => {
-    const { name, email, password, confirmPassword, number, uploadCv } = req.body
+    const { name, email, password, number, uploadCv } = req.body
+    const hashPassword = await bcrypt.hash(password, 10)
     const changeUser = {}
     if (name) changeUser.name = name
     if (email) changeUser.email = email
-    if (password) changeUser.password = password
-    if (confirmPassword) changeUser.confirmPassword = confirmPassword
+    if (password) changeUser.password = hashPassword
     if (number) changeUser.number = number
     if (uploadCv) changeUser.uploadCv = uploadCv
 

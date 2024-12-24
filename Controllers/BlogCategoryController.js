@@ -12,6 +12,7 @@ router.post(
         category,
       });
       res.json(Allategory);
+      
     }
   )
 );

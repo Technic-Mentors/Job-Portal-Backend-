@@ -20,9 +20,6 @@ router.post("/addJob", upload.fields([
         return res.status(400).json({ message: "Fields with * are required" });
     }
 
-    const checkJob = await JobPost.findOne({ title });
-    if (checkJob) return res.status(400).json({ message: "Title already exists" });
-
     let jImage;
     let couImage;
 
@@ -126,7 +123,7 @@ router.put("/updateJob/:id", upload.fields([
     if (perks) updateJob.perks = perks
     if (whatsApp) updateJob.whatsApp = whatsApp
     if (jobLocaType) updateJob.jobLocaType = jobLocaType
- 
+
     if (req.files.jobImage) {
         const uploadJobImage = await cloudinaryV2.uploader.upload(req.files.jobImage[0].path);
         updateJob.jobImage = uploadJobImage.secure_url

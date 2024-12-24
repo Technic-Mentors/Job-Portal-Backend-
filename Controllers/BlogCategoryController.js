@@ -12,7 +12,6 @@ router.post(
         category,
       });
       res.json(Allategory);
-      
     }
   )
 );
@@ -28,6 +27,7 @@ router.get("/getcategory/:id", errorHandling(async (req, res) => {
     return res.status(404).json({ message: "Dont find Category" });
   }
   res.json(Getcategory);
+  
 }));
 
 router.delete("/delcategory/:id", errorHandling(async (req, res) => {

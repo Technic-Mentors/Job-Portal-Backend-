@@ -29,6 +29,7 @@ app.use(cors({
 
 app.use(express.json())
 
+
 app.use("/api/user", userControllers)
 app.use("/api/jobPost", jobController)
 app.use("/api/apply", jobApplyController)
@@ -45,6 +46,7 @@ app.use("/api/jobSeaker", jobSeakerControllers)
 app.use("/api/jobCat", jobCatControllers)
 app.use("/api/jobInd", jobIndControllers)
 app.use("/api/interview", InterviewController)
+
 app.use("/api/interviewCat", InterviewCatController)
 app.use("/api/service", ServicesController)
 app.use("/api/serviceCat", ServicesCatController)

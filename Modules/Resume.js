@@ -17,7 +17,7 @@ const educationSchema = new Schema({
     fieldOfStudy: String,
     description: String,
 });
- 
+
 const resumeSchema = new Schema({
     name: {
         type: String,
@@ -29,6 +29,7 @@ const resumeSchema = new Schema({
     number: {
         type: String,
     },
+    profession: String,
     image: String,
     totalWorkExp: String,
     resumeHeadline: String,
@@ -43,4 +44,3 @@ const resumeSchema = new Schema({
 }, { timestamps: true });
 
 export default mongoose.model("Resume", resumeSchema);
- 

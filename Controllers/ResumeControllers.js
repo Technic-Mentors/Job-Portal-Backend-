@@ -7,7 +7,7 @@ import cloudinary from "../Cloudinary.js";
 const router = express.Router();
 
 router.post("/uploadResume", upload.single("image"), errorHandling(async (req, res) => {
-    const { userId, name, email, number, totalWorkExp, resumeHeadline, description, employmentDetails, educationDetails } = req.body;
+    const { userId, profession, name, email, number, totalWorkExp, resumeHeadline, description, employmentDetails, educationDetails } = req.body;
 
     let employmentDetailsArray = []
     let educationDetailsArray = []
@@ -30,7 +30,7 @@ router.post("/uploadResume", upload.single("image"), errorHandling(async (req, r
         }
     }
 
-    if (!name || !email) {
+    if (!name || !email || !profession) {
         return res.status(400).json({ message: "Fields with * should be filled" })
     }
 
@@ -45,7 +45,7 @@ router.post("/uploadResume", upload.single("image"), errorHandling(async (req, r
     }
 
     const uploadResume = await Resume.create({
-        userId, name, email, number, totalWorkExp, resumeHeadline, description, employmentDetails: employmentDetailsArray, educationDetails: educationDetailsArray, image: img_url
+        userId, name, profession, email, number, totalWorkExp, resumeHeadline, description, employmentDetails: employmentDetailsArray, educationDetails: educationDetailsArray, image: img_url
     })
     res.json(uploadResume)
 
@@ -63,7 +63,7 @@ router.get("/getResumeById/:id", errorHandling(async (req, res) => {
 
 router.put("/editResume/:id", upload.single("image"), errorHandling(async (req, res) => {
     const { id } = req.params;
-    const { name, email, number, totalWorkExp, resumeHeadline, description, employmentDetails, educationDetails } = req.body;
+    const { name, profession, email, number, totalWorkExp, resumeHeadline, description, employmentDetails, educationDetails } = req.body;
 
     let employmentDetailsArray = [];
     let educationDetailsArray = [];
@@ -101,7 +101,7 @@ router.put("/editResume/:id", upload.single("image"), errorHandling(async (req, 
     }
 
     const updatedResume = await Resume.findByIdAndUpdate(id, {
-        name, email, number, totalWorkExp, resumeHeadline, description, employmentDetails: employmentDetailsArray, educationDetails: educationDetailsArray, image: img_url
+        name, email, number, totalWorkExp, resumeHeadline, description, employmentDetails: employmentDetailsArray, educationDetails: educationDetailsArray, image: img_url, profession
     }, { new: true });
 
     if (!updatedResume) {

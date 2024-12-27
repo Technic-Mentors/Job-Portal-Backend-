@@ -19,6 +19,8 @@ import InterviewController from './Controllers/InterviewController.js'
 import InterviewCatController from './Controllers/InterviewCatController.js'
 import ServicesController from './Controllers/ServicesController.js'
 import ServicesCatController from './Controllers/ServicesCatController.js'
+import jobConControllers from "./Controllers/JobCountryController.js";
+import jobCityControllers from "./Controllers/JobCityController.js";
 
 import cors from "cors"
 mongoDbConnection()
@@ -45,6 +47,8 @@ app.use("/api/advice", interviewControllers)
 app.use("/api/jobSeaker", jobSeakerControllers)
 app.use("/api/jobCat", jobCatControllers)
 app.use("/api/jobInd", jobIndControllers)
+app.use("/api/jobCon", jobConControllers)
+app.use("/api/jobCity", jobCityControllers)
 app.use("/api/interview", InterviewController)
 
 app.use("/api/interviewCat", InterviewCatController)

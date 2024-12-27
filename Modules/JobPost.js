@@ -7,10 +7,12 @@ const jobSchema = new Schema({
         type: String
     },
     country: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "job Country"
     },
     city: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "job City"
     },
     email: {
         type: String

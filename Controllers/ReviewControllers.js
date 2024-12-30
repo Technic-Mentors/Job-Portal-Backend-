@@ -15,7 +15,7 @@ router.post("/addReview", upload.single("image"), errorHandling(async (req, res)
     if (req.file) {
         const imageUrl = await cloudinary.uploader.upload(req.file.path)
         img_url = imageUrl.secure_url
-    } 
+    }
 
     const newReview = await Review.create({ name, email, role, companyName, message, status, designation, image: img_url })
     res.json(newReview)
@@ -33,6 +33,13 @@ router.get("/getReviewById/:id", errorHandling(async (req, res) => {
 }))
 
 router.put("/acceptStatus/:id", async (req, res) => {
+    const AcceptStatus = await Review.findByIdAndUpdate(req.params.id, { status: "Y" }, { new: true })
+    if (!AcceptStatus) {
+        return res.status(404).json({ error: "Review not found" });
+    }
+    res.json({ message: "Review Published", AcceptStatus });
+})
+router.put("/rejectStatus/:id", async (req, res) => {
     const AcceptStatus = await Review.findByIdAndUpdate(req.params.id, { status: "Y" }, { new: true })
     if (!AcceptStatus) {
         return res.status(404).json({ error: "Review not found" });

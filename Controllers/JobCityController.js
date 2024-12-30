@@ -8,7 +8,8 @@ router.post(
     errorHandling(
         async (req, res) => {
             const { city, countryId } = req.body;
-            if (!city || !countryId) return res.status(400).json({ message: "Please fill city field" })
+            if (!city) return res.status(400).json({ message: "Please fill city field" })
+            if (!countryId) return res.status(400).json({ message: "Please select country" })
             const existingcity = await jobCity.findOne({
                 city: { $regex: `^${city}$`, $options: "i" }
             });

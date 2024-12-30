@@ -40,7 +40,7 @@ router.put("/acceptStatus/:id", async (req, res) => {
     res.json({ message: "Review Published", AcceptStatus });
 })
 router.put("/rejectStatus/:id", async (req, res) => {
-    const AcceptStatus = await Review.findByIdAndUpdate(req.params.id, { status: "Y" }, { new: true })
+    const AcceptStatus = await Review.findByIdAndUpdate(req.params.id, { status: "P" }, { new: true })
     if (!AcceptStatus) {
         return res.status(404).json({ error: "Review not found" });
     }

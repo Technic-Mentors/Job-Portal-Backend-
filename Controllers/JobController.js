@@ -4,6 +4,7 @@ const router = express.Router()
 import errorHandling from "../Middlewares/ErrorHandling.js";
 import cloudinaryV2 from "../Cloudinary.js";
 import upload from "../Middlewares/ImageFilter.js"
+import City from "../Modules/JobCity.js"
 
 router.post("/addJob", upload.fields([
     { name: "jobImage", maxCount: 1 },
@@ -67,6 +68,13 @@ router.get("/getJobById/:id", errorHandling(async (req, res) => {
     const getJobById = await JobPost.findById(req.params.id).populate("country", "country image").populate("city", "city").populate("categoryId", "category").populate("industryId", "industry image")
     if (!getJobById) return res.status(400).json({ message: "Job not found" })
     res.json(getJobById)
+}))
+
+router.get("/changeCity", errorHandling(async (req, res) => {
+    const allCities = await City.find()
+    const allJobs = await JobPost.find()
+    console.log(allJobs);
+
 }))
 
 router.get("/getJobByTitle/:title", errorHandling(async (req, res) => {

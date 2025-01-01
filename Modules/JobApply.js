@@ -15,6 +15,9 @@ const jobApplySchema = new Schema({
         type: String,
         required: true
     },
+    profession: {
+        type: String
+    },
     resume: {
         type: String
     },

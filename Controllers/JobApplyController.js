@@ -6,9 +6,9 @@ import cloudinary from "../Cloudinary.js"
 const router = express.Router()
 
 router.post("/applyForJob", uploadFile.single("resume"), errorHandling(async (req, res) => {
-    const { name, email, number, jobId, currentSalary, expectedSalary, relocation, status } = req.body
+    const { name, email, number, jobId, currentSalary, expectedSalary, relocation, status, profession } = req.body
 
-    if (!name || !email || !number || !expectedSalary || !relocation) return res.status(400).json({ message: "Fields with * should be filled" })
+    if (!name || !email || !number || !expectedSalary || !relocation || !profession) return res.status(400).json({ message: "Fields with * should be filled" })
 
     if (req.file && !req.file.mimetype.startsWith("application/pdf")) {
         return res.status(400).json({ message: "Only PDF files are allowed" });
@@ -21,7 +21,7 @@ router.post("/applyForJob", uploadFile.single("resume"), errorHandling(async (re
     }
 
     const applyForJob = await JobApply.create({
-        name, email, number, resume: resume_url, jobId, currentSalary, expectedSalary, relocation, status
+        name, email, number, resume: resume_url, jobId, currentSalary, expectedSalary, relocation, status, profession
     })
     res.json(applyForJob)
 }))
@@ -39,12 +39,13 @@ router.get("/getAppliedJob/:id", errorHandling(async (req, res) => {
 }))
 
 router.put("/updateAppliedJob/:id", uploadFile.single("resume"), errorHandling(async (req, res) => {
-    const { name, email, number, jobId, currentSalary, expectedSalary, relocation } = req.body
+    const { name, email, number, jobId, currentSalary, expectedSalary, relocation, profession } = req.body
 
     let updateJob = {}
     if (name) updateJob.name = name
     if (email) updateJob.email = email
     if (number) updateJob.number = number
+    if (profession) updateJob.profession = profession
     if (jobId) updateJob.jobId = jobId
     if (currentSalary) updateJob.currentSalary = currentSalary
     if (expectedSalary) updateJob.expectedSalary = expectedSalary

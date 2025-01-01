@@ -38,4 +38,10 @@ router.get("/getPdfCvById/:id", errorHandling(async (req, res) => {
     res.json(getUploadedCv)
 }))
 
+router.delete("/deletePdfCv/:id", errorHandling(async (req, res) => {
+    const deleteAppliedJob = await CvPdfUpload.findByIdAndDelete(req.params.id)
+    if (!deleteAppliedJob) return res.status(400).json({ message: "Pdf cv not found" })
+    res.json({ message: "Pdf cv deleted successfully" })
+}))
+
 export default router
